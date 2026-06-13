@@ -51,25 +51,131 @@
         .action-btn:hover { transform: scale(1.2); }
         
         /* Form Modal */
+        .product-modal-content {
+            width: 560px;
+            padding: 36px;
+            border-radius: 28px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.16);
+            max-width: calc(100% - 32px);
+            text-align: left;
+        }
+        .product-modal-content .modal-form,
+        .product-modal-content .form-group {
+            text-align: left;
+        }
+        .modal-content h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .modal-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.75;
+            margin-bottom: 28px;
+        }
+        .modal-form {
+            display: grid;
+            gap: 18px;
+        }
+        .modal-actions.modal-actions-row {
+            flex-direction: row;
+            justify-content: flex-end;
+        }
         .form-group {
             text-align: left;
-            margin-bottom: 16px;
+            margin-bottom: 0;
         }
         .form-group label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
         }
         .form-group input, .form-group select {
             width: 100%;
-            padding: 12px;
-            border-radius: var(--radius-md);
-            background-color: var(--bg-main);
-            border: 1px solid rgba(255,255,255,0.1);
+            padding: 14px 16px;
+            border-radius: var(--radius-lg);
+            background-color: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.12);
             color: var(--text-primary);
             font-size: 15px;
             font-family: 'Outfit', sans-serif;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: rgba(255, 133, 27, 0.8);
+            box-shadow: 0 0 0 4px rgba(255, 133, 27, 0.12);
+        }
+        .form-group small {
+            display: block;
+            margin-top: 8px;
+            color: rgba(255,255,255,0.65);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .image-preview {
+            width: 100%;
+            height: 190px;
+            border-radius: var(--radius-lg);
+            background-color: var(--bg-card);
+            border: 1px dashed rgba(255,255,255,0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .image-preview i {
+            font-size: 42px;
+            color: var(--text-muted);
+        }
+        .product-card-admin {
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+        }
+        .product-card-body {
+            padding: 24px;
+        }
+        .product-card-body h3 {
+            font-size: 19px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+        .product-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .btn-action-outline {
+            flex: 1;
+            padding: 12px 14px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.02em;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-action-outline:hover {
+            transform: translateY(-1px);
+        }
+        .btn-edit-admin {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+        .btn-delete-admin {
+            border-color: #ef4444;
+            color: #ef4444;
         }
         /* Product Grid */
         .products-grid {
@@ -80,18 +186,19 @@
         }
         
         .product-card-admin {
-            background-color: var(--bg-secondary);
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: var(--radius-lg);
-            border: 1px solid rgba(255,255,255,0.05);
             overflow: hidden;
             transition: var(--transition);
             position: relative;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
         }
         
         .product-card-admin:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-soft);
-            border-color: rgba(255, 107, 0, 0.3);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.08);
+            border-color: rgba(255, 133, 27, 0.35);
         }
         
         .product-card-img {
@@ -122,20 +229,21 @@
             background: rgba(0,0,0,0.7);
             backdrop-filter: blur(4px);
             color: white;
-            padding: 4px 12px;
+            padding: 6px 14px;
             border-radius: var(--radius-full);
             font-size: 12px;
             font-weight: 600;
         }
         
         .product-card-body {
-            padding: 20px;
+            padding: 24px;
         }
         
         .product-card-body h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 19px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            line-height: 1.3;
         }
         
         .product-card-body .price {
@@ -152,30 +260,19 @@
 
         .btn-action-outline {
             flex: 1;
-            padding: 10px;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: var(--transition);
+            padding: 12px 14px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.02em;
             background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .btn-edit-admin {
-            border: 1px solid #3b82f6;
-            color: #3b82f6;
-        }
         .btn-edit-admin:hover {
             background: rgba(59, 130, 246, 0.1);
         }
 
-        .btn-delete-admin {
-            border: 1px solid var(--danger);
-            color: var(--danger);
-        }
         .btn-delete-admin:hover {
             background: rgba(239, 68, 68, 0.1);
         }
@@ -216,9 +313,10 @@
 
     <!-- Product Modal -->
     <div class="modal" id="product-modal">
-        <div class="modal-content" style="width: 500px;">
-            <h2 id="modal-title" style="margin-bottom: 24px; text-align: left;">Tambah Menu Baru</h2>
-            <form id="product-form">
+        <div class="modal-content product-modal-content">
+            <h2 id="modal-title" style="margin-bottom: 8px;">Tambah Menu Baru</h2>
+            <p class="modal-subtitle">Gunakan form ini untuk menambahkan atau memperbarui menu dengan tampilan lebih profesional.</p>
+            <form id="product-form" class="modal-form">
                 <input type="hidden" id="product-id">
                 <div class="form-group">
                     <label>Nama Menu</label>
@@ -235,11 +333,22 @@
                     <input type="number" id="product-price" required min="0" placeholder="Contoh: 15000">
                 </div>
                 <div class="form-group">
-                    <label>URL Gambar (Opsional)</label>
-                    <input type="text" id="product-image" placeholder="images/nama_gambar.png">
-                    <small style="color: var(--text-muted); display: block; margin-top: 4px;">Biarkan kosong untuk menggunakan ikon default.</small>
+                    <label>Upload Foto (Opsional)</label>
+                    <input type="file" id="product-image-file" accept="image/*">
+                    <small>Pilih file JPG/PNG untuk mengunggah foto produk secara langsung.</small>
                 </div>
-                <div class="modal-actions" style="flex-direction: row; justify-content: flex-end; gap: 12px;">
+                <div class="form-group">
+                    <label>Link Foto (Opsional)</label>
+                    <input type="url" id="product-image" placeholder="https://example.com/foto-menu.png" oninput="updateImagePreview()">
+                    <small>Atau gunakkan link jika foto sudah tersimpan di internet.</small>
+                </div>
+                <div class="form-group">
+                    <label>Preview Foto</label>
+                    <div id="image-preview" class="image-preview">
+                        <i class='bx bx-image'></i>
+                    </div>
+                </div>
+                <div class="modal-actions modal-actions-row">
                     <button type="button" class="btn-print" onclick="closeModal()">Batal</button>
                     <button type="submit" class="btn-close-modal">Simpan Menu</button>
                 </div>

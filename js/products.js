@@ -30,6 +30,7 @@ function initProducts() {
     renderTable();
     
     form.addEventListener('submit', handleFormSubmit);
+    document.getElementById('product-image-file').addEventListener('change', handleImageUpload);
 }
 
 function renderTable() {
@@ -76,6 +77,8 @@ function openModal() {
     document.getElementById('modal-title').textContent = 'Tambah Menu Baru';
     form.reset();
     document.getElementById('product-id').value = '';
+    document.getElementById('product-image-file').value = '';
+    updateImagePreview();
     modal.classList.add('show');
 }
 
@@ -94,8 +97,44 @@ function editProduct(id) {
     document.getElementById('product-category').value = item.category;
     document.getElementById('product-price').value = item.price;
     document.getElementById('product-image').value = item.image || '';
+    document.getElementById('product-image-file').value = '';
+    updateImagePreview();
     
     modal.classList.add('show');
+}
+
+function handleImageUpload(event) {
+    const fileInput = event.target;
+    const file = fileInput.files && fileInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        const imageField = document.getElementById('product-image');
+        imageField.value = reader.result;
+        updateImagePreview();
+    };
+    reader.readAsDataURL(file);
+}
+
+function updateImagePreview() {
+    const preview = document.getElementById('image-preview');
+    const url = document.getElementById('product-image').value.trim();
+    preview.innerHTML = '';
+
+    if (!url) {
+        preview.innerHTML = "<i class='bx bx-image'></i>";
+        return;
+    }
+
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = 'Preview gambar menu';
+    img.onerror = () => {
+        preview.innerHTML = "<i class='bx bx-image'></i>";
+    };
+
+    preview.appendChild(img);
 }
 
 function deleteProduct(id) {
