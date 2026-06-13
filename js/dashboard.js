@@ -33,6 +33,8 @@ function loadDashboardData() {
     document.getElementById('total-revenue').textContent = formatRupiah(totalRevenue);
     document.getElementById('total-orders').textContent = transactions.length;
     document.getElementById('total-items').textContent = totalItems;
+
+    renderDailySales(transactions);
     
     // Render Transactions Table
     const tbody = document.getElementById('transactions-body');
@@ -65,6 +67,46 @@ function loadDashboardData() {
             <td><span class="status completed">Selesai</span></td>
         `;
         tbody.appendChild(tr);
+    });
+}
+
+
+function renderDailySales(transactions) {
+    const dailySales = {};
+    const today = new Date();
+    const daysToShow = 7;
+
+    // Initialize last 7 days
+    for (let i = daysToShow - 1; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        const key = date.toISOString().slice(0, 10);
+        dailySales[key] = { orders: 0, items: 0, revenue: 0 };
+    }
+
+    transactions.forEach(trx => {
+        const dateKey = new Date(trx.date).toISOString().slice(0, 10);
+        if (dailySales[dateKey]) {
+            dailySales[dateKey].orders += 1;
+            dailySales[dateKey].revenue += trx.total;
+            trx.items.forEach(item => {
+                dailySales[dateKey].items += item.qty;
+            });
+        }
+    });
+
+    const body = document.getElementById('daily-sales-body');
+    body.innerHTML = '';
+    Object.keys(dailySales).forEach(dateKey => {
+        const day = new Date(dateKey).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${day}</td>
+            <td>${dailySales[dateKey].orders}</td>
+            <td>${dailySales[dateKey].items}</td>
+            <td>${formatRupiah(dailySales[dateKey].revenue)}</td>
+        `;
+        body.appendChild(row);
     });
 }
 

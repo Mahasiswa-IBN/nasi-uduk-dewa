@@ -689,6 +689,39 @@ header {
     border: 1px solid rgba(255,255,255,0.02);
 }
 
+.daily-sales {
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.02);
+    margin-bottom: 24px;
+}
+
+.daily-sales h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.daily-sales table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.daily-sales th,
+.daily-sales td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.daily-sales th {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.daily-sales td {
+    color: var(--text-primary);
+}
+
 .recent-orders h2 {
     font-size: 20px;
     margin-bottom: 20px;

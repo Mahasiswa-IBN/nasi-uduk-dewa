@@ -68,6 +68,26 @@
                 </div>
             </div>
 
+            <div class="daily-sales" style="margin-top: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Analisis Terjual Per Hari</h2>
+                    <span style="color: var(--text-secondary); font-size: 14px;">Menampilkan ringkasan 7 hari terakhir</span>
+                </div>
+                <table id="daily-sales-table">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Pesanan</th>
+                            <th>Item Terjual</th>
+                            <th>Pendapatan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="daily-sales-body">
+                        <!-- Daily sales injected by JS -->
+                    </tbody>
+                </table>
+            </div>
+
             <div class="recent-orders">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h2>Riwayat Transaksi Terbaru</h2>
