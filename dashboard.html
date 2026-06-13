@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Nasi Uduk Dewa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Boxicons for icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .dashboard-main {
+            padding: 32px 40px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container" style="grid-template-columns: 240px 1fr;">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class='bx bxs-bowl-hot'></i>
+                <h2>Uduk Dewa</h2>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html"><i class='bx bx-grid-alt'></i> Kasir</a></li>
+                <li class="active"><a href="dashboard.html"><i class='bx bx-bar-chart-square'></i> Dashboard</a></li>
+                <li><a href="products.html"><i class='bx bx-package'></i> Atur Produk</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content (Dashboard) -->
+        <main class="dashboard-main">
+            <header style="margin-bottom: 40px;">
+                <div>
+                    <h1 style="font-size: 32px; font-weight: 800;">Laporan Keuangan</h1>
+                    <p style="color: var(--text-secondary); margin-top: 8px;">Ringkasan penjualan dan performa bisnis Anda.</p>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class='bx bx-wallet'></i></div>
+                    <div class="stat-info">
+                        <h3>Total Pendapatan</h3>
+                        <h2 id="total-revenue">Rp 0</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);"><i class='bx bx-receipt'></i></div>
+                    <div class="stat-info">
+                        <h3>Total Pesanan</h3>
+                        <h2 id="total-orders">0</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: rgba(59, 130, 246, 0.1); color: #3b82f6;"><i class='bx bx-food-menu'></i></div>
+                    <div class="stat-info">
+                        <h3>Item Terjual</h3>
+                        <h2 id="total-items">0</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-orders">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Riwayat Transaksi Terbaru</h2>
+                    <button class="btn-print" onclick="clearTransactions()" style="background-color: rgba(239, 68, 68, 0.1); color: var(--danger); padding: 8px 16px; font-size: 14px;">Hapus Data</button>
+                </div>
+                <table id="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>ID Pesanan</th>
+                            <th>Tanggal & Waktu</th>
+                            <th>Nama Pelanggan</th>
+                            <th>Detail Pesanan</th>
+                            <th>Total Pembayaran</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactions-body">
+                        <!-- Transactions injected by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atur Produk - Nasi Uduk Dewa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .dashboard-main {
+            padding: 32px 40px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+        }
+        .btn-add {
+            background: linear-gradient(135deg, var(--accent-primary), #ff4500);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow-glow);
+            transition: var(--transition);
+        }
+        .btn-add:hover {
+            transform: translateY(-2px);
+        }
+        .action-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            margin: 0 4px;
+            transition: var(--transition);
+        }
+        .btn-edit { color: #3b82f6; }
+        .btn-delete { color: var(--danger); }
+        .action-btn:hover { transform: scale(1.2); }
+        
+        /* Form Modal */
+        .form-group {
+            text-align: left;
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            background-color: var(--bg-main);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: 'Outfit', sans-serif;
+        }
+        /* Product Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        .product-card-admin {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255,255,255,0.05);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .product-card-admin:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-soft);
+            border-color: rgba(255, 107, 0, 0.3);
+        }
+        
+        .product-card-img {
+            width: 100%;
+            height: 180px;
+            background-color: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .product-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-card-img i {
+            font-size: 64px;
+            color: var(--text-muted);
+        }
+
+        .product-card-cat {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            color: white;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .product-card-body {
+            padding: 20px;
+        }
+        
+        .product-card-body h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .product-card-body .price {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-action-outline {
+            flex: 1;
+            padding: 10px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        .btn-edit-admin {
+            border: 1px solid #3b82f6;
+            color: #3b82f6;
+        }
+        .btn-edit-admin:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-delete-admin {
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+        .btn-delete-admin:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container" style="grid-template-columns: 240px 1fr;">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class='bx bxs-bowl-hot'></i>
+                <h2>Uduk Dewa</h2>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html"><i class='bx bx-grid-alt'></i> Kasir</a></li>
+                <li><a href="dashboard.html"><i class='bx bx-bar-chart-square'></i> Dashboard</a></li>
+                <li class="active"><a href="products.html"><i class='bx bx-package'></i> Atur Produk</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <div class="header-actions">
+                <div>
+                    <h1 style="font-size: 32px; font-weight: 800;">Atur Produk</h1>
+                    <p style="color: var(--text-secondary); margin-top: 8px;">Kelola daftar menu, harga, dan gambar.</p>
+                </div>
+                <button class="btn-add" onclick="openModal()"><i class='bx bx-plus'></i> Tambah Menu</button>
+            </div>
+
+            <div class="products-grid" id="products-grid">
+                <!-- Injected via JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content" style="width: 500px;">
+            <h2 id="modal-title" style="margin-bottom: 24px; text-align: left;">Tambah Menu Baru</h2>
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                <div class="form-group">
+                    <label>Nama Menu</label>
+                    <input type="text" id="product-name" required placeholder="Contoh: Nasi Uduk Super">
+                </div>
+                <div class="form-group">
+                    <label>Kategori</label>
+                    <select id="product-category" required>
+                        <!-- Categories injected via JS -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Harga (Rp)</label>
+                    <input type="number" id="product-price" required min="0" placeholder="Contoh: 15000">
+                </div>
+                <div class="form-group">
+                    <label>URL Gambar (Opsional)</label>
+                    <input type="text" id="product-image" placeholder="images/nama_gambar.png">
+                    <small style="color: var(--text-muted); display: block; margin-top: 4px;">Biarkan kosong untuk menggunakan ikon default.</small>
+                </div>
+                <div class="modal-actions" style="flex-direction: row; justify-content: flex-end; gap: 12px;">
+                    <button type="button" class="btn-print" onclick="closeModal()">Batal</button>
+                    <button type="submit" class="btn-close-modal">Simpan Menu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/products.js"></script>
+</body>
+</html>

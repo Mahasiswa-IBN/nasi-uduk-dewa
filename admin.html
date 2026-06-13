@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Admin - Nasi Uduk Dewa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background-image: radial-gradient(circle at 50% 0%, var(--bg-card), var(--bg-main) 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .admin-portal {
+            max-width: 1000px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+        .admin-header {
+            margin-bottom: 60px;
+        }
+        .admin-header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .admin-header p {
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .portal-card {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: var(--radius-lg);
+            padding: 40px 30px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), #ff4500);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .portal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: rgba(255, 107, 0, 0.2);
+            background: var(--bg-card);
+        }
+        .portal-card:hover::before {
+            opacity: 1;
+        }
+        .portal-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-full);
+            background: rgba(255, 107, 0, 0.1);
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+        .portal-card:hover .portal-icon {
+            background: linear-gradient(135deg, var(--accent-primary), #ff4500);
+            color: white;
+            box-shadow: var(--shadow-glow);
+        }
+        .portal-card h3 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .portal-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* Specialized Colors for Icons */
+        .card-cashier .portal-icon { color: #10b981; background: rgba(16, 185, 129, 0.1); }
+        .card-cashier:hover .portal-icon { background: #10b981; color: white; box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+        .card-cashier:hover::before { background: #10b981; }
+        
+        .card-dash .portal-icon { color: #3b82f6; background: rgba(59, 130, 246, 0.1); }
+        .card-dash:hover .portal-icon { background: #3b82f6; color: white; box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+        .card-dash:hover::before { background: #3b82f6; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-portal">
+        <div class="admin-header">
+            <i class='bx bxs-bowl-hot' style="font-size: 64px; color: var(--accent-primary); margin-bottom: 20px; text-shadow: var(--shadow-glow);"></i>
+            <h1>Portal Admin Dewa</h1>
+            <p>Selamat datang, Owner. Silakan pilih modul yang ingin Anda akses.</p>
+        </div>
+
+        <div class="portal-grid">
+            <a href="index.html" class="portal-card card-cashier">
+                <div class="portal-icon"><i class='bx bx-laptop'></i></div>
+                <h3>Sistem Kasir (POS)</h3>
+                <p>Akses antarmuka mesin kasir untuk melayani pelanggan, menerima pesanan, dan mencetak struk pembayaran.</p>
+            </a>
+
+            <a href="dashboard.html" class="portal-card card-dash">
+                <div class="portal-icon"><i class='bx bx-bar-chart-square'></i></div>
+                <h3>Dashboard Keuangan</h3>
+                <p>Lihat laporan ringkasan pendapatan harian, total pesanan, dan pantau riwayat transaksi masuk.</p>
+            </a>
+
+            <a href="products.html" class="portal-card">
+                <div class="portal-icon"><i class='bx bx-package'></i></div>
+                <h3>Atur Produk</h3>
+                <p>Kelola daftar menu makanan & minuman, ubah harga, ganti gambar, dan tambah menu promosi baru.</p>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
