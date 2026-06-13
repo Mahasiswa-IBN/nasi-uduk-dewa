@@ -108,11 +108,49 @@ function handleImageUpload(event) {
     const file = fileInput.files && fileInput.files[0];
     if (!file) return;
 
+    // Pastikan file adalah gambar
+    if (!file.type.startsWith('image/')) {
+        alert('Mohon pilih file gambar yang valid.');
+        fileInput.value = '';
+        return;
+    }
+
     const reader = new FileReader();
-    reader.onload = () => {
-        const imageField = document.getElementById('product-image');
-        imageField.value = reader.result;
-        updateImagePreview();
+    reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 400; // Ukuran max lebar untuk efisiensi penyimpanan
+            const MAX_HEIGHT = 400; // Ukuran max tinggi
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                }
+            } else {
+                if (height > MAX_HEIGHT) {
+                    width *= MAX_HEIGHT / height;
+                    height = MAX_HEIGHT;
+                }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // Kompresi ke JPEG dengan kualitas 70% (ukuran file berkurang drastis, kualitas tetap baik)
+            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+
+            const imageField = document.getElementById('product-image');
+            imageField.value = compressedBase64;
+            updateImagePreview();
+        };
+        img.src = e.target.result;
     };
     reader.readAsDataURL(file);
 }

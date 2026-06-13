@@ -25,6 +25,7 @@
             <ul class="nav-links">
                 <li class="active"><a href="index.html"><i class='bx bx-grid-alt'></i> Kasir</a></li>
                 <li><a href="dashboard.html"><i class='bx bx-bar-chart-square'></i> Dashboard</a></li>
+                <li><a href="reports.html"><i class='bx bx-calculator'></i> Laporan Pajak</a></li>
                 <li><a href="products.html"><i class='bx bx-package'></i> Atur Produk</a></li>
             </ul>
 
@@ -53,6 +54,13 @@
                 <h1 id="current-category-title">Semua Menu</h1>
             </div>
 
+            <!-- Mobile Categories Scroll -->
+            <div class="mobile-categories-wrapper">
+                <ul id="mobile-category-list" class="mobile-category-scroll">
+                    <!-- Injected by JS -->
+                </ul>
+            </div>
+
             <div class="menu-grid" id="menu-grid">
                 <!-- Menu Items injected by JS -->
             </div>
@@ -61,7 +69,10 @@
         <!-- Right Sidebar (Cart) -->
         <aside class="cart-sidebar">
             <div class="cart-header">
-                <h2>Pesanan Saat Ini</h2>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button id="btn-close-cart" style="display: none; background: transparent; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer; display: flex; align-items: center; padding: 0;"><i class='bx bx-chevron-left'></i></button>
+                    <h2>Pesanan Saat Ini</h2>
+                </div>
                 <span class="order-id">#ORD-0001</span>
             </div>
 
@@ -103,18 +114,37 @@
                 </button>
             </div>
         </aside>
+
+        <!-- Floating Cart Button for Mobile -->
+        <button class="btn-floating-cart" id="btn-toggle-cart">
+            <i class='bx bx-shopping-bag'></i>
+            <span class="cart-badge" id="mobile-cart-badge">0</span>
+        </button>
+    </div>
+
+    <!-- Bottom Navigation for Mobile -->
+    <div class="bottom-nav">
+        <a href="index.html" class="active"><i class='bx bx-grid-alt'></i><span>Kasir</span></a>
+        <a href="dashboard.html"><i class='bx bx-bar-chart-square'></i><span>Dashboard</span></a>
+        <a href="reports.html"><i class='bx bx-calculator'></i><span>Pajak</span></a>
+        <a href="products.html"><i class='bx bx-package'></i><span>Produk</span></a>
     </div>
 
     <!-- Checkout Modal -->
     <div class="modal" id="checkout-modal">
-        <div class="modal-content">
-            <i class='bx bx-check-circle modal-icon success'></i>
-            <h2>Pembayaran Berhasil!</h2>
-            <p>Total dibayar: <strong id="modal-total-paid">Rp 0</strong></p>
-            <p class="kembalian-text" style="display:none;">Kembalian: <strong id="modal-kembalian">Rp 0</strong></p>
-            <div class="modal-actions">
-                <button class="btn-print"><i class='bx bx-printer'></i> Cetak Struk</button>
-                <button class="btn-close-modal" id="btn-close-modal">Pesanan Baru</button>
+        <div class="modal-content" style="width: 420px; padding: 30px;">
+            <i class='bx bx-check-circle modal-icon success' style="font-size: 56px; margin-bottom: 12px;"></i>
+            <h2 style="font-size: 22px; margin-bottom: 8px;">Pembayaran Berhasil!</h2>
+            <p style="font-size: 14px; margin-bottom: 16px;">Total dibayar: <strong id="modal-total-paid" style="font-size: 16px; color: var(--accent-primary);">Rp 0</strong></p>
+            
+            <!-- Receipt Preview Container -->
+            <div id="checkout-receipt-preview" style="background: white; color: #000; padding: 16px; border-radius: var(--radius-sm); font-family: 'Courier New', Courier, monospace; font-size: 12px; line-height: 1.4; text-align: left; box-shadow: inset 0 0 10px rgba(0,0,0,0.1); margin-bottom: 20px; max-height: 280px; overflow-y: auto;">
+                <!-- Filled via JS -->
+            </div>
+
+            <div class="modal-actions" style="margin-top: 0; display: flex; flex-direction: row; gap: 12px;">
+                <button class="btn-print" id="btn-print" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Outfit', sans-serif;"><i class='bx bx-printer'></i> Cetak Struk</button>
+                <button class="btn-close-modal" id="btn-close-modal" style="flex: 1; font-family: 'Outfit', sans-serif; background: rgba(255,255,255,0.05); color: var(--text-primary); border: 1px solid rgba(255,255,255,0.1);">Pesanan Baru</button>
             </div>
         </div>
     </div>

@@ -44,6 +44,23 @@ function init() {
     btnCheckout.addEventListener('click', handleCheckout);
     btnCloseModal.addEventListener('click', closeModal);
     btnPrint.addEventListener('click', printReceipt);
+
+    // Mobile cart drawer toggle
+    const btnToggleCart = document.getElementById('btn-toggle-cart');
+    const btnCloseCart = document.getElementById('btn-close-cart');
+    const cartSidebar = document.querySelector('.cart-sidebar');
+
+    if (btnToggleCart && cartSidebar) {
+        btnToggleCart.addEventListener('click', () => {
+            cartSidebar.classList.toggle('show');
+        });
+    }
+
+    if (btnCloseCart && cartSidebar) {
+        btnCloseCart.addEventListener('click', () => {
+            cartSidebar.classList.remove('show');
+        });
+    }
 }
 
 // Format Currency
@@ -65,21 +82,42 @@ function formatDate(date) {
 
 // Render Categories
 function renderCategories() {
-    categoryList.innerHTML = '';
-    categories.forEach(cat => {
-        const li = document.createElement('li');
-        const btn = document.createElement('button');
-        btn.className = `category-btn ${cat.id === currentCategory ? 'active' : ''}`;
-        btn.textContent = cat.name;
-        btn.onclick = () => {
-            currentCategory = cat.id;
-            currentCategoryTitle.textContent = cat.name;
-            renderCategories();
-            renderMenu();
-        };
-        li.appendChild(btn);
-        categoryList.appendChild(li);
-    });
+    if (categoryList) {
+        categoryList.innerHTML = '';
+        categories.forEach(cat => {
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.className = `category-btn ${cat.id === currentCategory ? 'active' : ''}`;
+            btn.textContent = cat.name;
+            btn.onclick = () => {
+                currentCategory = cat.id;
+                currentCategoryTitle.textContent = cat.name;
+                renderCategories();
+                renderMenu();
+            };
+            li.appendChild(btn);
+            categoryList.appendChild(li);
+        });
+    }
+
+    const mobileCategoryList = document.getElementById('mobile-category-list');
+    if (mobileCategoryList) {
+        mobileCategoryList.innerHTML = '';
+        categories.forEach(cat => {
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.className = `mobile-category-btn ${cat.id === currentCategory ? 'active' : ''}`;
+            btn.textContent = cat.name;
+            btn.onclick = () => {
+                currentCategory = cat.id;
+                currentCategoryTitle.textContent = cat.name;
+                renderCategories();
+                renderMenu();
+            };
+            li.appendChild(btn);
+            mobileCategoryList.appendChild(li);
+        });
+    }
 }
 
 // Render Menu Items
@@ -148,6 +186,21 @@ function updateQty(id, change) {
 
 function updateCart() {
     cartItemsContainer.innerHTML = '';
+    
+    // Update mobile badge
+    let totalItemsInCart = 0;
+    cart.forEach(item => {
+        totalItemsInCart += item.qty;
+    });
+    const mobileCartBadge = document.getElementById('mobile-cart-badge');
+    if (mobileCartBadge) {
+        mobileCartBadge.textContent = totalItemsInCart;
+        if (totalItemsInCart > 0) {
+            mobileCartBadge.style.display = 'flex';
+        } else {
+            mobileCartBadge.style.display = 'none';
+        }
+    }
     
     if (cart.length === 0) {
         cartItemsContainer.innerHTML = '<div class="empty-cart-msg">Keranjang kosong</div>';
@@ -224,6 +277,60 @@ function handleCheckout() {
     };
 
     saveTransaction(lastTransaction);
+    
+    // Generate HTML for receipt preview in the checkout success modal
+    let itemsHtml = '';
+    lastTransaction.items.forEach(item => {
+        itemsHtml += `
+            <div style="display: flex; justify-content: space-between; margin: 4px 0;">
+                <span style="text-align: left; max-width: 180px;">${item.name} x${item.qty}</span>
+                <span>${formatRupiah(item.price * item.qty)}</span>
+            </div>
+        `;
+    });
+
+    const receiptHtml = `
+        <div style="text-align: center; margin-bottom: 12px;">
+            <h2 style="font-size: 16px; margin: 0 0 4px 0; font-family: 'Outfit', sans-serif; font-weight: 800; color: #000;">NASI UDUK DEWA</h2>
+            <p style="margin: 2px 0; font-size: 11px; color: #333;">Jl. Makanan Enak No. 99, Jakarta</p>
+            <p style="margin: 2px 0; font-size: 11px; color: #333;">Telp: 0812-3456-7890</p>
+            <p style="margin: 6px 0; color: #000;">--------------------------------</p>
+        </div>
+        <div style="margin-bottom: 12px; font-size: 12px; color: #000;">
+            <p style="margin: 2px 0;">No: ${lastTransaction.id}</p>
+            <p style="margin: 2px 0;">Tanggal: ${formatDate(lastTransaction.date)}</p>
+            <p style="margin: 2px 0;">Pelanggan: <strong>${lastTransaction.customer}</strong></p>
+            <p style="margin: 2px 0;">Metode: ${lastTransaction.method}</p>
+            <p style="margin: 2px 0;">Kasir: Kasir 1</p>
+            <p style="margin: 6px 0; color: #000;">--------------------------------</p>
+        </div>
+        <div style="font-size: 12px; color: #000;">
+            ${itemsHtml}
+        </div>
+        <div style="margin-top: 12px; font-size: 12px; color: #000;">
+            <p style="margin: 6px 0; color: #000;">--------------------------------</p>
+            <div style="display: flex; justify-content: space-between; margin: 4px 0;">
+                <span>Subtotal</span>
+                <span>${formatRupiah(lastTransaction.subtotal)}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin: 4px 0;">
+                <span>Pajak (10%)</span>
+                <span>${formatRupiah(lastTransaction.tax)}</span>
+            </div>
+            <p style="margin: 6px 0; color: #000;">--------------------------------</p>
+            <div style="display: flex; justify-content: space-between; margin: 4px 0; font-weight: bold; font-size: 14px;">
+                <span>TOTAL</span>
+                <span>${formatRupiah(lastTransaction.total)}</span>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 16px; font-size: 12px; color: #000;">
+            <p style="margin: 6px 0; color: #000;">--------------------------------</p>
+            <p style="margin: 2px 0;">Terima Kasih</p>
+            <p style="margin: 2px 0;">Silakan Datang Kembali!</p>
+        </div>
+    `;
+
+    document.getElementById('checkout-receipt-preview').innerHTML = receiptHtml;
     
     modalTotalPaid.textContent = formatRupiah(total);
     checkoutModal.classList.add('show');

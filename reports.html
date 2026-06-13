@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Pajak - Nasi Uduk Dewa</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Boxicons for icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/print.css">
+    <style>
+        .dashboard-main {
+            padding: 32px 40px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .btn-action-view {
+            background: rgba(255, 107, 0, 0.1);
+            color: var(--accent-primary);
+            border: 1px solid rgba(255, 107, 0, 0.2);
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: var(--transition);
+        }
+        .btn-action-view:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+            transform: translateY(-1px);
+        }
+        .filter-section {
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .filter-group label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .filter-group select {
+            background-color: var(--bg-main);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+        }
+        .tax-notice {
+            background-color: rgba(255, 133, 27, 0.05);
+            border: 1px solid rgba(255, 133, 27, 0.2);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 12px;
+        }
+        .tax-notice i {
+            font-size: 20px;
+            color: var(--accent-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container" style="grid-template-columns: 240px 1fr;">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class='bx bxs-bowl-hot'></i>
+                <h2>Uduk Dewa</h2>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html"><i class='bx bx-grid-alt'></i> Kasir</a></li>
+                <li><a href="dashboard.html"><i class='bx bx-bar-chart-square'></i> Dashboard</a></li>
+                <li class="active"><a href="reports.html"><i class='bx bx-calculator'></i> Laporan Pajak</a></li>
+                <li><a href="products.html"><i class='bx bx-package'></i> Atur Produk</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <header style="margin-bottom: 30px;">
+                <div>
+                    <h1 style="font-size: 32px; font-weight: 800;">Laporan Pendapatan & Pajak</h1>
+                    <p style="color: var(--text-secondary); margin-top: 8px;">Laporan omset bulanan untuk keperluan pelaporan perpajakan usaha (UMKM / PPh Final & PB1).</p>
+                </div>
+            </header>
+
+            <!-- Filter Tahun -->
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label for="year-filter">Pilih Tahun Pajak:</label>
+                    <select id="year-filter">
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                    </select>
+                </div>
+                <div style="font-size: 13px; color: var(--text-muted);">
+                    Data dihitung berdasarkan transaksi berstatus <span class="status completed" style="font-size: 11px;">Selesai</span>.
+                </div>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="dashboard-grid">
+                <!-- Card 1: Total Omset (Gross) -->
+                <div class="stats-card">
+                    <div class="stats-icon" style="background-color: rgba(255, 133, 27, 0.1); color: var(--accent-primary);">
+                        <i class='bx bx-money-withdraw'></i>
+                    </div>
+                    <div class="stats-info">
+                        <h3>Omset Kotor Tahunan</h3>
+                        <p id="total-gross">Rp 0</p>
+                        <span style="font-size: 12px; color: var(--text-muted);">Total seluruh penerimaan bruto (termasuk pajak)</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: PB1 / PPN Terkumpul -->
+                <div class="stats-card">
+                    <div class="stats-icon" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">
+                        <i class='bx bx-receipt'></i>
+                    </div>
+                    <div class="stats-info">
+                        <h3>Pajak PB1 / Restoran (10%)</h3>
+                        <p id="total-tax-collected">Rp 0</p>
+                        <span style="font-size: 12px; color: var(--text-muted);">Total pajak restoran yang dikumpulkan dari pelanggan</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: PPh Final UMKM (0.5%) -->
+                <div class="stats-card">
+                    <div class="stats-icon" style="background-color: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                        <i class='bx bx-calculator'></i>
+                    </div>
+                    <div class="stats-info">
+                        <h3>Estimasi PPh Final PP 23 (0.5%)</h3>
+                        <p id="total-final-tax">Rp 0</p>
+                        <span style="font-size: 12px; color: var(--text-muted);">Kewajiban Pajak UMKM 0.5% dari Omset Kotor</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tax-notice">
+                <i class='bx bx-info-circle'></i>
+                <div>
+                    <strong>Catatan Perpajakan:</strong> Menurut Peraturan Pemerintah No. 23 Tahun 2018 (PP 23), Wajib Pajak UMKM dengan peredaran bruto tertentu dikenakan <strong>PPh Final sebesar 0.5%</strong> dari omset kotor. Sedangkan <strong>Pajak Restoran (PB1 / Pajak Daerah 10%)</strong> adalah pajak yang Anda pungut langsung dari pelanggan.
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="recent-orders" style="margin-top: 32px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <h2 style="font-size: 20px; font-weight: 800;">Rincian Omset & Pajak per Bulan</h2>
+                    <button class="btn-print" onclick="window.print()" style="font-size: 13px; padding: 8px 16px;"><i class='bx bx-printer'></i> Cetak Semua</button>
+                </div>
+                <table id="reports-table">
+                    <thead>
+                        <tr>
+                            <th>Bulan</th>
+                            <th>Total Transaksi</th>
+                            <th>Penerimaan Bruto (Omset Kotor)</th>
+                            <th>Dasar Pengenaan Pajak (DPP)</th>
+                            <th>Pajak Restoran (PB1 10%)</th>
+                            <th>PPh Final UMKM (0.5%)</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reports-body">
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Navigation for Mobile -->
+    <div class="bottom-nav">
+        <a href="index.html"><i class='bx bx-grid-alt'></i><span>Kasir</span></a>
+        <a href="dashboard.html"><i class='bx bx-bar-chart-square'></i><span>Dashboard</span></a>
+        <a href="reports.html" class="active"><i class='bx bx-calculator'></i><span>Pajak</span></a>
+        <a href="products.html"><i class='bx bx-package'></i><span>Produk</span></a>
+    </div>
+
+    <!-- Monthly Detail Modal -->
+    <div class="modal" id="report-modal">
+        <div class="modal-content" style="width: 450px; text-align: left; padding: 28px; border-radius: var(--radius-lg); background-color: var(--bg-secondary);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+                <h3 style="font-size: 20px; font-weight: 800; color: var(--text-primary);">Detail Laporan Bulanan</h3>
+                <button onclick="closeReportModal()" style="background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center;"><i class='bx bx-x'></i></button>
+            </div>
+            
+            <div id="report-preview-box" style="margin-bottom: 24px;">
+                <!-- Filled via JS -->
+            </div>
+
+            <div class="modal-actions" style="margin-top: 0; display: flex; gap: 12px;">
+                <button class="btn-print" id="btn-print-report" style="flex: 1;"><i class='bx bx-printer'></i> Cetak Laporan</button>
+                <button class="btn-close-modal" onclick="closeReportModal()" style="flex: 1; background: rgba(255,255,255,0.05); color: var(--text-primary); border: 1px solid rgba(255,255,255,0.1);">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/reports.js"></script>
+</body>
+</html>
